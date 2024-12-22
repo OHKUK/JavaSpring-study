@@ -12,4 +12,8 @@ public class MainController {
 		return "안녕하세요 SBB에 오신걸 환경합니다.";
 	}
 
+	@GetMapping("/")
+	public String root() {
+        return "redirect:/question/list";
+    }
 }
