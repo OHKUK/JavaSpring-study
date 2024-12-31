@@ -12,6 +12,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.mysite.sbb.DataNotFoundException;
+
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -34,5 +36,14 @@ public class UserSecurityService implements UserDetailsService {
             authorities.add(new SimpleGrantedAuthority(UserRole.USER.getValue()));
         }
         return new User(siteUser.getUsername(), siteUser.getPassword(), authorities);
+    }
+    
+    public SiteUser getUser(String username) {
+    	Optional<SiteUser> siteUser = this.userRepository.findByusername(username);
+    	if(siteUser.isPresent()) {
+    		return siteUser.get();
+    	} else {
+			throw new DataNotFoundException("siteuser not found");
+		}
     }
 }
